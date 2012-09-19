@@ -1,6 +1,7 @@
 package Connection;
 
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -16,16 +17,13 @@ public class ConnectTerminalSocket extends Thread
 	private int terminalPort = 2001;
 	private Terminal terminal;
 	private Vector<Terminal> terminalList;
-	private ConnectTermToPayload connectTermToPayload;
-	private int payloadSocketNubmer = 0;
 	private Controller controller;
 	public ServerSocket serverTerminalSocket;
 	public Vector<TerminalDataController> terminalDataList;
-	
-	public ConnectTerminalSocket(Controller controller, ConnectTermToPayload connectTermToPayload)
+	public ObjectOutputStream objectOutputStream;
+	public ConnectTerminalSocket(Controller controller)
 	{
 		this.controller = controller;
-		this.connectTermToPayload = connectTermToPayload;
 		terminalDataList = new Vector<TerminalDataController>();
 		terminalList = new Vector<Terminal>();
 		
@@ -45,19 +43,13 @@ public class ConnectTerminalSocket extends Thread
 			terminal = new Terminal();
 			terminal.socket = socket;
 			terminal.deviceName = getName.getPName(socket);
+			objectOutputStream = getName.objectOutputStream;
 			terminalList.add(terminal);
-		
-			payloadSocketNubmer = connectTermToPayload.Connect(terminal.deviceName);
-			if(payloadSocketNubmer != 99)
-			{
-				TerminalDataController terminalDataController = new TerminalDataController(socket, payloadSocketNubmer, terminal.deviceName);
-				terminalDataList.add(terminalDataController);
-				controller.UpDateTerminalList(terminalDataList);
-			}
-			else
-			{
-				System.out.println("Fail"); // need to make this do something to correct it
-			}
+			
+			TerminalDataController terminalDataController = new TerminalDataController(socket, terminal.deviceName,controller);
+			terminalDataList.add(terminalDataController);
+			controller.UpDateTerminalList(terminalDataList);
+			controller.objectOutputStream = objectOutputStream;
 	}
 	public void run() 
 	{

@@ -1,6 +1,7 @@
 package Data;
 
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Vector;
 
@@ -19,10 +20,10 @@ public class GetName
 	public String streamInString;
 	public String DeviceName;
 	public Vector<TerminalPayloadList> payloadListVector;
+	public ObjectOutputStream objectOutputStream;
 	
 	public GetName(Controller controller) 
 	{
-		
 		this.payloadListVector = controller.payloadListVector;
 	}
 
@@ -59,19 +60,20 @@ public class GetName
 					sendStreamOut.streamOut("Refresh");
 					ObjectStream objectStream =  new ObjectStream(payloadListVector);
 					objectStream.sendObject(socket);
+					objectOutputStream = objectStream.objectOutputStream;
 				 }
 			}
-			Ping();
+			requestPayloadName();
 			try { Thread.sleep(10); } catch(InterruptedException e) { /* we tried */}
 		}
 		return DeviceName;
 	}
 	
-	public void Ping()
+	public void requestPayloadName()
 	{
-		if((System.currentTimeMillis() - lastPingTime) > 3000) //// Fix this
+		if((System.currentTimeMillis() - lastPingTime) > 1000)
 		{
-			sendStreamOut.streamOut("#"); // Ping outgoing
+			sendStreamOut.streamOut("#"); 
 			lastPingTime = System.currentTimeMillis();
 		}
 	}
