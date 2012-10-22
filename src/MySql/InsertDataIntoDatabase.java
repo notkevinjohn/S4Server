@@ -14,14 +14,22 @@ public class InsertDataIntoDatabase
 	public String databaseURL = "jdbc:mysql://localhost:3306";
 	public String databaseName = "/S4";
 	public String driver = "com.mysql.jdbc.Driver";
-	public String userName = "root";
-	public String password = "nasaepo";
+	public String userName;
+	public String password;
 	public Connection connection = null;
 	public Parser parser;
-	public Vector<MySqlData> gpsSensorData;
+	public MySqlData mySqlDataParsed;
+	public String tableName = "S4PayloadData ";
+	public Vector<String> records;
+	
 	
 	public InsertDataIntoDatabase()
 	{
+		Config config = new Config();
+		records = config.config();
+		userName = records.get(0);
+		password = records.get(1);
+		
 		try
 		{
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -39,12 +47,14 @@ public class InsertDataIntoDatabase
 	{
 		Statement stmt;
 		
-		gpsSensorData = parser.parseData("$GPGGA,123519,4807.038,N,01131.000,W,1,08,0.9,545.4,M,46.9,M,,*47", "@,%,50004,$,6015,*,5050");
+		mySqlDataParsed = parser.parseData(gpsData, sensorData + ",");  // , makes the last value to be parsed by parser
 		
 		
 		try {
 			stmt = connection.createStatement();
-			String insetStatement = "INSERT INTO PayloadData VALUES('" +
+			String insetStatement = "INSERT INTO " +
+					tableName +
+					"VALUES('" +
 					System.currentTimeMillis() +
 					"','" +
 					payloadName +
@@ -52,9 +62,63 @@ public class InsertDataIntoDatabase
 					gpsData +
 					"','" +
 					sensorData +
+					"','" +
+					mySqlDataParsed.GPS_Time +
+					"','" +
+					mySqlDataParsed.GPS_Fix +
+					"','" +
+					mySqlDataParsed.GPS_Lon +
+					"','" +
+					mySqlDataParsed.GPS_Lat +
+					"','" +
+					mySqlDataParsed.GPS_Alt +
+					"','" +
+					mySqlDataParsed.Sen_1_Key +
+					"','" +
+					mySqlDataParsed.Sen_1_Value +
+					"','" +
+					mySqlDataParsed.Sen_2_Key +
+					"','" +
+					mySqlDataParsed.Sen_2_Value +
+					"','" +
+					mySqlDataParsed.Sen_3_Key +
+					"','" +
+					mySqlDataParsed.Sen_3_Value +
+					"','" +
+					mySqlDataParsed.Sen_4_Key +
+					"','" +
+					mySqlDataParsed.Sen_4_Value +
+					"','" +
+					mySqlDataParsed.Sen_5_Key +
+					"','" +
+					mySqlDataParsed.Sen_5_Value +
+					"','" +
+					mySqlDataParsed.Sen_6_Key +
+					"','" +
+					mySqlDataParsed.Sen_6_Value +
+					"','" +
+					mySqlDataParsed.Sen_7_Key +
+					"','" +
+					mySqlDataParsed.Sen_7_Value +
+					"','" +
+					mySqlDataParsed.Sen_8_Key +
+					"','" +
+					mySqlDataParsed.Sen_8_Value +
+					"','" +
+					mySqlDataParsed.Sen_9_Key +
+					"','" +
+					mySqlDataParsed.Sen_9_Value +
+					"','" +
+					mySqlDataParsed.Sen_10_Key +
+					"','" +
+					mySqlDataParsed.Sen_10_Value +
 					"');";
+			
 			stmt.executeUpdate(insetStatement);
 			System.out.println("Complete");
+			
+		
+			stmt.close();
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

@@ -1,17 +1,18 @@
 package Main;
 
-import MySql.InsertDataIntoDatabase;
-
+//import MySql.MySqlDatabaseTester;
 //import MySql.CreateTable;
+//import MySql.InsertDataIntoDatabase;
 
 public class Main 
 {
 	
 	public static void main(String[] args) 
 	{
+		
+	    new Controller();
 		//new CreateTable();
-		//new Controller();
-		InsertDataIntoDatabase da = new InsertDataIntoDatabase();
-		da.insertDataIntoDatabase("SSU-01", "$GGPGA,234,234,2*54", "@,!,44564,&,3345");
+		//new MySqlDatabaseTester();
 	}
+	
 }

@@ -8,6 +8,7 @@ import FileWriters.PayloadLogger;
 import IOStream.GetStreamIn;
 import IOStream.SendStreamOut;
 import Main.Controller;
+import MySql.InsertDataIntoDatabase;
 
 public class PayloadDataController extends Thread
 {
@@ -21,7 +22,7 @@ public class PayloadDataController extends Thread
 	private GetStreamIn getStreamIn;
 	private boolean payloadConnected = true;
 	private PayloadLogger payloadLogger;
-	
+	private InsertDataIntoDatabase mySqlData;
 	public PayloadDataController(Socket socket, Controller controller, String deviceName)
 	{
 		this.socket = socket;
@@ -34,7 +35,7 @@ public class PayloadDataController extends Thread
 		payloadLogger = new PayloadLogger();
 		payloadLogger.payloadLogger(deviceName);
 		this.start();
-		
+		mySqlData = new InsertDataIntoDatabase();
 		
 	}
 	
@@ -76,6 +77,7 @@ public class PayloadDataController extends Thread
 						payloadData = new PayloadData();
 						payloadLogger.recieveText(tempGpsData);
 						payloadLogger.recieveText(tempScienceData);
+						mySqlData.insertDataIntoDatabase(deviceName, tempGpsData, tempScienceData);
 					}
 				}
 			}

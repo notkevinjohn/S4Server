@@ -14,7 +14,7 @@ public class Parser
 	{
 	}
 	
-	public Vector<MySqlData> parseData(String gpsData, String sensorData)
+	public MySqlData parseData(String gpsData, String sensorData)
 	{
 		gpsSensorData = new Vector<MySqlData>();
 		mySqlData = new MySqlData();
@@ -88,7 +88,7 @@ public class Parser
 		
 		
 		
-		return gpsSensorData;
+		return mySqlData;
 		
 	}
 	
