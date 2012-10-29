@@ -43,7 +43,7 @@ public class InsertDataIntoDatabase
 		parser = new Parser();
 	}
 	
-	public void insertDataIntoDatabase(String payloadName, String gpsData, String sensorData)
+	public MySqlData insertDataIntoDatabase(String payloadName, String gpsData, String sensorData)
 	{
 		Statement stmt;
 		
@@ -124,5 +124,6 @@ public class InsertDataIntoDatabase
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return mySqlDataParsed;
 	}
 }

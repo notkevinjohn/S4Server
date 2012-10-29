@@ -9,6 +9,7 @@ import IOStream.GetStreamIn;
 import IOStream.SendStreamOut;
 import Main.Controller;
 import MySql.InsertDataIntoDatabase;
+import Parser.MySqlData;
 
 public class PayloadDataController extends Thread
 {
@@ -23,6 +24,8 @@ public class PayloadDataController extends Thread
 	private boolean payloadConnected = true;
 	private PayloadLogger payloadLogger;
 	private InsertDataIntoDatabase mySqlData;
+	public MySqlData mySqlDataParsed;
+	
 	public PayloadDataController(Socket socket, Controller controller, String deviceName)
 	{
 		this.socket = socket;
@@ -69,15 +72,66 @@ public class PayloadDataController extends Thread
 					    payloadData.gpsData = tempGpsData;
 						String tempScienceData = streamInString.substring(scienceDataStart);
 						tempScienceData += '\r';
-	
 						payloadData.scienceData = tempScienceData;
-						  
+
+						mySqlDataParsed = mySqlData.insertDataIntoDatabase(deviceName, tempGpsData, tempScienceData); 
+						
+						payloadData.Sen_1_Key = mySqlDataParsed.Sen_1_Key;
+						if(!mySqlDataParsed.Sen_1_Value.contentEquals(""))
+						{
+							payloadData.Sen_1_Value = Double.parseDouble(mySqlDataParsed.Sen_1_Value);
+						}
+						payloadData.Sen_2_Key = mySqlDataParsed.Sen_2_Key;
+						if(!mySqlDataParsed.Sen_2_Value.contentEquals(""))
+						{
+							payloadData.Sen_2_Value = Double.parseDouble(mySqlDataParsed.Sen_2_Value);
+						}
+						payloadData.Sen_3_Key = mySqlDataParsed.Sen_3_Key;
+						if(!mySqlDataParsed.Sen_3_Value.contentEquals(""))
+						{
+							payloadData.Sen_3_Value = Double.parseDouble(mySqlDataParsed.Sen_3_Value);
+						}
+						payloadData.Sen_4_Key = mySqlDataParsed.Sen_4_Key;
+						if(!mySqlDataParsed.Sen_4_Value.contentEquals(""))
+						{
+							payloadData.Sen_4_Value = Double.parseDouble(mySqlDataParsed.Sen_4_Value);
+						}
+						payloadData.Sen_5_Key = mySqlDataParsed.Sen_5_Key;
+						if(!mySqlDataParsed.Sen_5_Value.contentEquals(""))
+						{
+							payloadData.Sen_5_Value = Double.parseDouble(mySqlDataParsed.Sen_5_Value);
+						}
+						payloadData.Sen_6_Key = mySqlDataParsed.Sen_6_Key;
+						if(!mySqlDataParsed.Sen_6_Value.contentEquals(""))
+						{
+							payloadData.Sen_6_Value = Double.parseDouble(mySqlDataParsed.Sen_6_Value);
+						}
+						payloadData.Sen_7_Key = mySqlDataParsed.Sen_7_Key;
+						if(!mySqlDataParsed.Sen_7_Value.contentEquals(""))
+						{
+							payloadData.Sen_7_Value = Double.parseDouble(mySqlDataParsed.Sen_7_Value);
+						}
+						payloadData.Sen_8_Key = mySqlDataParsed.Sen_8_Key;
+						if(!mySqlDataParsed.Sen_8_Value.contentEquals(""))
+						{
+							payloadData.Sen_8_Value = Double.parseDouble(mySqlDataParsed.Sen_8_Value);
+						}
+						payloadData.Sen_9_Key = mySqlDataParsed.Sen_9_Key;
+						if(!mySqlDataParsed.Sen_9_Value.contentEquals(""))
+						{
+							payloadData.Sen_9_Value = Double.parseDouble(mySqlDataParsed.Sen_9_Value);
+						}
+						payloadData.Sen_10_Key = mySqlDataParsed.Sen_10_Key;
+						if(!mySqlDataParsed.Sen_10_Value.contentEquals(""))
+						{
+							payloadData.Sen_10_Value = Double.parseDouble(mySqlDataParsed.Sen_10_Value);
+						}
+						
 						payloadData.timeStamp = System.currentTimeMillis();
 						payloadDataVector.addElement(payloadData);
 						payloadData = new PayloadData();
 						payloadLogger.recieveText(tempGpsData);
-						payloadLogger.recieveText(tempScienceData);
-						mySqlData.insertDataIntoDatabase(deviceName, tempGpsData, tempScienceData);
+						payloadLogger.recieveText(tempScienceData);	
 					}
 				}
 			}
