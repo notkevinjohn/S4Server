@@ -126,6 +126,20 @@ public class PayloadDataController extends Thread
 						{
 							payloadData.Sen_10_Value = Double.parseDouble(mySqlDataParsed.Sen_10_Value);
 						}
+						System.out.println(mySqlDataParsed.GPS_Alt);
+						
+						if(mySqlDataParsed.GPS_Alt.matches("[0-9]+") | mySqlDataParsed.GPS_Alt.contains(".") )  // Need to handel this better
+						{
+							payloadData.alt = Double.parseDouble(mySqlDataParsed.GPS_Alt);
+						}
+						if(mySqlDataParsed.GPS_Lon.matches("[0-9]+") | mySqlDataParsed.GPS_Alt.contains("."))
+						{
+							payloadData.lon = Double.parseDouble(mySqlDataParsed.GPS_Lon);
+						}
+						if(mySqlDataParsed.GPS_Lat.matches("[0-9]+") | mySqlDataParsed.GPS_Alt.contains("."))
+						{
+							payloadData.lat = Double.parseDouble(mySqlDataParsed.GPS_Lat);
+						}
 						
 						payloadData.timeStamp = System.currentTimeMillis();
 						payloadDataVector.addElement(payloadData);
