@@ -7,7 +7,8 @@ import java.awt.event.WindowListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
+import javax.swing.JTextArea;
+import javax.swing.JScrollPane;
 
 public class GUI extends JFrame {
 
@@ -16,19 +17,27 @@ public class GUI extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	private JScrollPane scrollPane;
+	private JTextArea textArea;
 	
 	public GUI() {
 	    this.setName("Server");
 	    this.setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 151, 85);
+		setBounds(100, 100, 283, 417);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 		
-		JLabel lblServerExitTo = new JLabel("Server Exit to Close");
-		contentPane.add(lblServerExitTo, BorderLayout.CENTER);
+		scrollPane = new JScrollPane();
+		contentPane.add(scrollPane, BorderLayout.CENTER);
+		
+		textArea = new JTextArea();
+		textArea.setWrapStyleWord(true);
+		scrollPane.setViewportView(textArea);
+		textArea.setEditable(false);
+		textArea.setLineWrap(true);
 		
 		this.addWindowListener(new WindowListener() 
 		{
@@ -52,5 +61,16 @@ public class GUI extends JFrame {
 		});
 		
 	}
-
+	public void updateText(final String updateString)
+	{
+		try
+		{
+			textArea.append(updateString);
+			textArea.setCaretPosition(textArea.getDocument().getLength());
+		}
+		catch(Exception e) 
+		{ 
+			System.out.println(e);
+		}
+	}
 }

@@ -5,6 +5,7 @@ import java.net.Socket;
 import java.util.Vector;
 import Connection.ConnectPayloadSocket;
 import Connection.ConnectTerminalSocket;
+import Connection.ListentoUDP;
 import Data.Payload;
 import Data.PayloadData;
 import Data.TerminalPayloadList;
@@ -30,15 +31,22 @@ public class Controller extends Thread
 	public ObjectOutputStream objectOutputStream;
 	public static javax.swing.event.EventListenerList listenerList = new javax.swing.event.EventListenerList();
 	public Socket socket;
+	public GUI gui;
+	public ListentoUDP listentoUDP;
 	
 	public Controller()
 	{	
-		new GUI();
+		gui = new GUI();
+		listentoUDP = new ListentoUDP();
+		listentoUDP.listentoUDP(gui);
+		
+		listentoUDP.start();
 		this.start();
 		ConnectPayloadSocket connectPayloadSocket = new ConnectPayloadSocket(this);
 		ConnectTerminalSocket connectTerminalSocket = new ConnectTerminalSocket(this);
 		connectPayloadSocket.start();
 		connectTerminalSocket.start();
+		
 		streamOut = new SendStreamOut();
 		payloadObjectTX = new PayloadObjectTX();
 		
