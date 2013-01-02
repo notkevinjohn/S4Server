@@ -1,6 +1,7 @@
 package SocketHandelers;
 
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import IOStream.GetStreamIn;
 import IOStream.SendStreamOut;
@@ -19,8 +20,10 @@ public class TerminalDataController extends Thread
 	public String payloadDeviceName;
 	public Controller controller;
 	public long timeStamp = 0;
-	public TerminalDataController(Socket socket, String payloadDeviceName, Controller controller)
+	public ObjectOutputStream objectOutputStream;
+	public TerminalDataController(Socket socket, String payloadDeviceName, Controller controller, ObjectOutputStream objectOutputStream)
 	{
+		this.objectOutputStream = objectOutputStream;
 		this.controller = controller;
 		this.payloadDeviceName = payloadDeviceName;
 		this.socket = socket;
@@ -62,7 +65,7 @@ public class TerminalDataController extends Thread
 	
 	public void payloadUpdateRequested(String payloadRequested)
 	{
-		controller.terminalRequestForUpdate(this, payloadRequested);
+		controller.terminalRequestForUpdate(this, payloadRequested, objectOutputStream);
 	}
 	public void StreamOut(String sendText)
 	{

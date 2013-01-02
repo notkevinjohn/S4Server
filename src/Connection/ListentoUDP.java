@@ -9,6 +9,7 @@ import java.util.Formatter;
 import java.util.Vector;
 import Data.BrodcastMessage;
 import Data.Payload;
+import FileWriters.PayloadLogger;
 import GUI.GUI;
 import Main.Controller;
 import SocketHandelers.PayloadDataController;
@@ -23,10 +24,16 @@ public class ListentoUDP  extends Thread
 	public DatagramSocket socket;
 	public BrodcastMessage brodcastMessage;
 	public GUI gui;
+	public PayloadLogger payloadLogger1;
+	public PayloadLogger payloadLogger2;
+	StringBuilder output;
+	StringBuilder output2;
+	StringBuilder output3;
 	
-	public void listentoUDP(GUI gui)
+	public void listentoUDP(Controller controller, GUI gui)
 	{
 		this.gui = gui;
+		this.controller = controller;
 
 		try {
 				socket = new DatagramSocket(2003, InetAddress.getByName("192.168.1.2"));
@@ -35,6 +42,13 @@ public class ListentoUDP  extends Thread
 		{
 			e1.printStackTrace();
 		}
+		output = new StringBuilder();
+		output2 = new StringBuilder();
+		output3 = new StringBuilder();
+		payloadLogger1 = new PayloadLogger();
+		payloadLogger1.payloadLogger("SSU-01_RSSI");
+		payloadLogger2 = new PayloadLogger();
+		payloadLogger2.payloadLogger("SSU-02_RSSI");
 		
 	}
 	
@@ -87,7 +101,7 @@ public class ListentoUDP  extends Thread
 		brodcastMessage.BatteryVoltage = hexString.substring(28, 32);
 		brodcastMessage.valueofGPIO = hexString.substring(32, 36);
 		
-		StringBuilder output = new StringBuilder();
+		output = new StringBuilder();
 	    for (int i = 0; i < hexString.substring(36, 64).length(); i+=2) {
 	        String str = hexString.substring(36, 64).substring(i, i+2);
 	        output.append((char)Integer.parseInt(str, 16));
@@ -95,7 +109,7 @@ public class ListentoUDP  extends Thread
 	    
 		brodcastMessage.ASCIITime = new String(output);
 		
-		StringBuilder output2 = new StringBuilder();
+		output2 = new StringBuilder();
 	    for (int i = 0; i < hexString.substring(64, 120).length(); i+=2) {
 	        String str = hexString.substring(64, 120).substring(i, i+2);
 	        output2.append((char)Integer.parseInt(str, 16));
@@ -103,13 +117,13 @@ public class ListentoUDP  extends Thread
 	    
 		brodcastMessage.Version = new String(output2);
 		
-		StringBuilder output3 = new StringBuilder();
+		output3 = new StringBuilder();
 	    for (int i = 0; i < hexString.substring(120, 180).length(); i+=2) {
 	        String str = hexString.substring(120, 180).substring(i, i+2);
 	        output3.append((char)Integer.parseInt(str, 16));
 	    }
+	    
 		brodcastMessage.DeviceID = 	new String(output3);
-		
 		brodcastMessage.BootTime = hexString.substring(180, 182);
 		brodcastMessage.VoltageSensors = hexString.substring(182, hexString.length());
 
@@ -125,13 +139,50 @@ public class ListentoUDP  extends Thread
 //		System.out.println(brodcastMessage.DeviceID);
 //		System.out.println(brodcastMessage.BootTime);
 //		System.out.println(brodcastMessage.VoltageSensors);
+//		System.out.println(brodcastMessage.DeviceID);
 		
-		String tempString = "RSSI: -";
+		String tempString = brodcastMessage.DeviceID.substring(0, 6);
+			   tempString += "   ";
+		       tempString += "RSSI: -";
 			   tempString += Long.parseLong(brodcastMessage.RSSI, 16);
 			   tempString += "dbm     Battery: ";
 			   tempString +=  Long.parseLong(brodcastMessage.BatteryVoltage, 16);
-			   tempString += "\n";
-			   
-		gui.updateText(tempString);
+			   tempString += "\r";
+			   System.out.println(tempString); 
+//		gui.updateText(tempString);
+//		
+		BrodcastMessageUpdate(brodcastMessage.DeviceID.substring(0, 6));
+		
+
+		
+//		if(brodcastMessage.DeviceID.startsWith("SSU-01"))
+//		{
+//			String temp = "-";
+//			temp +=Long.parseLong(brodcastMessage.RSSI,16);
+//			System.out.println(temp);
+//		}
+//		
+//		if(brodcastMessage.DeviceID.startsWith("SSU-02"))
+//		{
+//			String temp = "-";
+//			temp +=Long.parseLong(brodcastMessage.RSSI,16);
+//			System.out.println(temp);
+//		}
+		
 	}
+	public void  BrodcastMessageUpdate(String payloadName)
+	{
+		
+		if(controller.payloadDataList != null)
+		{
+			for(int i = 0; i < controller.payloadDataList.size(); i++)
+			{
+				if(payloadName.equals(controller.payloadDataList.get(i).deviceName) && controller.payloadDataList.size() >0 && controller.payloadDataList.get(0).payloadDataVector.size() > 0)
+				{
+					controller.payloadDataList.get(i).updateBrodcastMessage(brodcastMessage);
+				}
+			}
+		}
+	}
+	
 }

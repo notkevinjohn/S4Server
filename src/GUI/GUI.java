@@ -3,12 +3,20 @@ package GUI;
 import java.awt.BorderLayout;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+
+import Data.PayloadData;
+import Main.Controller;
 
 public class GUI extends JFrame {
 
@@ -19,8 +27,19 @@ public class GUI extends JFrame {
 	private JPanel contentPane;
 	private JScrollPane scrollPane;
 	private JTextArea textArea;
+	private JMenuBar menuBar;
+	private JMenu mnPayloads;
+	private JMenu mnTimeout;
+	private JMenuItem mntmSeconds;
+	private JMenuItem mntmSeconds_1;
+	private JMenuItem mntmSeconds_2;
+	private JMenuItem mntmNone;
+	public Controller controller;
+	public Timer timer;
 	
-	public GUI() {
+	public GUI(Controller controller) 
+	{
+		this.controller = controller;
 	    this.setName("Server");
 	    this.setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -38,6 +57,29 @@ public class GUI extends JFrame {
 		scrollPane.setViewportView(textArea);
 		textArea.setEditable(false);
 		textArea.setLineWrap(true);
+		
+		menuBar = new JMenuBar();
+		scrollPane.setColumnHeaderView(menuBar);
+		
+		mnPayloads = new JMenu("Payloads");
+		menuBar.add(mnPayloads);
+		
+		mnTimeout = new JMenu("TimeOut");
+		mnPayloads.add(mnTimeout);
+		
+		mntmSeconds = new JMenuItem("120 seconds");
+		mnTimeout.add(mntmSeconds);
+		
+		mntmSeconds_1 = new JMenuItem("180 seconds");
+		mnTimeout.add(mntmSeconds_1);
+		
+		mntmSeconds_2 = new JMenuItem("300 seconds");
+		mnTimeout.add(mntmSeconds_2);
+		
+		mntmNone = new JMenuItem("None");
+		mnTimeout.add(mntmNone);
+		
+		Reminder(3000);
 		
 		this.addWindowListener(new WindowListener() 
 		{
@@ -61,6 +103,45 @@ public class GUI extends JFrame {
 		});
 		
 	}
+	
+	
+	public void Reminder(int miliseconds) {
+        timer = new Timer();
+        timer.schedule(new RemindTask(), 0, miliseconds);
+	}
+
+    class RemindTask extends TimerTask 
+    {
+        public void run() 
+        {
+        	textArea.setText("");
+        	if(controller.payloadList != null)
+        	{
+	        	for(int i= 0; i < controller.payloadList.size(); i++ )
+	        	{
+	        		textArea.append(controller.payloadList.get(i).deviceName);
+	        		textArea.append("\n");
+	        		
+	        		if(controller.terminalDataList != null)
+	        		{
+		        		for(int j = 0; j < controller.terminalDataList.size(); j++)
+		        		{
+		        			if(controller.payloadList.get(i).deviceName.equals(controller.terminalDataList.get(j).payloadDeviceName))
+		        			{
+		        				String tempString = "    -";
+		        				tempString += controller.terminalDataList.get(j).socket.getInetAddress();
+		        				tempString += "\n";
+		        				textArea.append(tempString);
+		        			}
+		        		}
+	        		}
+	        	}
+        	}
+        	
+        }
+    }
+    
+	
 	public void updateText(final String updateString)
 	{
 		try

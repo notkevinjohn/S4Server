@@ -46,7 +46,7 @@ public class ConnectTerminalSocket extends Thread
 			objectOutputStream = getName.objectOutputStream;
 			terminalList.add(terminal);
 			
-			TerminalDataController terminalDataController = new TerminalDataController(socket, terminal.deviceName,controller);
+			TerminalDataController terminalDataController = new TerminalDataController(socket, terminal.deviceName,controller,objectOutputStream);
 			terminalDataList.add(terminalDataController);
 			controller.UpDateTerminalList(terminalDataList);
 			controller.objectOutputStream = objectOutputStream;

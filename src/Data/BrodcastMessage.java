@@ -1,7 +1,14 @@
 package Data;
 
-public class BrodcastMessage 
+import java.io.Serializable;
+
+public class BrodcastMessage implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8735505746069529122L;
+	
 	public String macAddress;
 	public String channel;
 	public String RSSI;

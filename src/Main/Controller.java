@@ -36,9 +36,9 @@ public class Controller extends Thread
 	
 	public Controller()
 	{	
-		gui = new GUI();
+		gui = new GUI(this);
 		listentoUDP = new ListentoUDP();
-		listentoUDP.listentoUDP(gui);
+		listentoUDP.listentoUDP(this, gui);
 		
 		listentoUDP.start();
 		this.start();
@@ -87,7 +87,7 @@ public class Controller extends Thread
 	}
 	
 	// Takes a request from a Terminal for the Payload update and updates it with the newest data
-	public void  terminalRequestForUpdate(TerminalDataController termDataController, String payloadName)
+	public void  terminalRequestForUpdate(TerminalDataController termDataController, String payloadName, ObjectOutputStream objectOutputStream)
 	{
 		for(int i = 0; i < payloadDataList.size(); i++)
 		{
@@ -97,7 +97,7 @@ public class Controller extends Thread
 				PayloadData payloadLastData = payloadDataList.get(i).payloadDataVector.get(payloadDataList.get(i).payloadDataVector.size()-1);
 				streamOut.attachSocket(termDataController.socket);
 				streamOut.streamOut("PayloadUpdate");
-				try { Thread.sleep(20); } catch(InterruptedException e) { /* we tried */}
+				try { Thread.sleep(30); } catch(InterruptedException e) { } // to not overload the output stream
 				payloadObjectTX.sendObject(termDataController.socket, payloadLastData, objectOutputStream);
 			}
 		}

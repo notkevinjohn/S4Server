@@ -27,9 +27,16 @@ public class StreamOutObject
 			out = new ObjectOutputStream(dataOutputStream);
 			out.writeObject(IPList);
 			out.flush();
+			socket.getOutputStream().flush();
 	    } 
 		catch (IOException e) 
 		{
+			try {
+				socket.getOutputStream().flush();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			e.printStackTrace();
 		}
 	}

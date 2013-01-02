@@ -24,6 +24,7 @@ public class GetStreamIn
 		catch (IOException e) 
 		{
 			e.printStackTrace();
+			
 		}
 		return recieve;
 	}

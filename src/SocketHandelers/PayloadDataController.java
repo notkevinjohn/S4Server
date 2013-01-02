@@ -3,6 +3,8 @@ package SocketHandelers;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.Vector;
+
+import Data.BrodcastMessage;
 import Data.PayloadData;
 import FileWriters.PayloadLogger;
 import IOStream.GetStreamIn;
@@ -25,6 +27,8 @@ public class PayloadDataController extends Thread
 	private PayloadLogger payloadLogger;
 	private InsertDataIntoDatabase mySqlData;
 	public MySqlData mySqlDataParsed;
+	public BrodcastMessage brodcastMessage;
+	
 	
 	public PayloadDataController(Socket socket, Controller controller, String deviceName)
 	{
@@ -42,7 +46,7 @@ public class PayloadDataController extends Thread
 		
 	}
 	
-	public void run() 
+	public void run()
 	{
 		while(payloadConnected)
 		{
@@ -53,15 +57,19 @@ public class PayloadDataController extends Thread
 			catch (IOException e) 
 			{
 				e.printStackTrace();
+				try {
+					socket.getInputStream().reset();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 			
 			if(available > 0)
 			{
-				  streamInString = getStreamIn.StreamIn(socket);
-				  System.out.println(streamInString);
-				  
-				  
-
+				streamInString = getStreamIn.StreamIn(socket);
+				System.out.println(streamInString);
+				  	
 				if(streamInString.startsWith("$GPGGA"))
 				{
 					
@@ -76,85 +84,189 @@ public class PayloadDataController extends Thread
 
 						mySqlDataParsed = mySqlData.insertDataIntoDatabase(deviceName, tempGpsData, tempScienceData); 
 						
+						
 						payloadData.Sen_1_Key = mySqlDataParsed.Sen_1_Key;
 						if(!mySqlDataParsed.Sen_1_Value.contentEquals(""))
 						{
+							try
+							{
 							payloadData.Sen_1_Value = Double.parseDouble(mySqlDataParsed.Sen_1_Value);
+							}
+							catch(NumberFormatException e)
+							{
+								e.printStackTrace();
+							}
 						}
 						payloadData.Sen_2_Key = mySqlDataParsed.Sen_2_Key;
 						if(!mySqlDataParsed.Sen_2_Value.contentEquals(""))
 						{
+							try
+							{
 							payloadData.Sen_2_Value = Double.parseDouble(mySqlDataParsed.Sen_2_Value);
+							}
+							catch(NumberFormatException e)
+							{
+								e.printStackTrace();
+							}
 						}
 						payloadData.Sen_3_Key = mySqlDataParsed.Sen_3_Key;
 						if(!mySqlDataParsed.Sen_3_Value.contentEquals(""))
 						{
+							try
+							{
 							payloadData.Sen_3_Value = Double.parseDouble(mySqlDataParsed.Sen_3_Value);
+							}
+							catch(NumberFormatException e)
+							{
+								e.printStackTrace();
+							}
 						}
 						payloadData.Sen_4_Key = mySqlDataParsed.Sen_4_Key;
 						if(!mySqlDataParsed.Sen_4_Value.contentEquals(""))
 						{
+							try
+							{
 							payloadData.Sen_4_Value = Double.parseDouble(mySqlDataParsed.Sen_4_Value);
+							}
+							catch(NumberFormatException e)
+							{
+								e.printStackTrace();
+							}
 						}
 						payloadData.Sen_5_Key = mySqlDataParsed.Sen_5_Key;
 						if(!mySqlDataParsed.Sen_5_Value.contentEquals(""))
 						{
-							payloadData.Sen_5_Value = Double.parseDouble(mySqlDataParsed.Sen_5_Value);
+							try
+							{
+								payloadData.Sen_5_Value = Double.parseDouble(mySqlDataParsed.Sen_5_Value);
+							}
+							catch(NumberFormatException e)
+							{
+								e.printStackTrace();
+							}
 						}
 						payloadData.Sen_6_Key = mySqlDataParsed.Sen_6_Key;
 						if(!mySqlDataParsed.Sen_6_Value.contentEquals(""))
 						{
-							payloadData.Sen_6_Value = Double.parseDouble(mySqlDataParsed.Sen_6_Value);
+							try
+							{
+								payloadData.Sen_6_Value = Double.parseDouble(mySqlDataParsed.Sen_6_Value);
+							}
+							catch(NumberFormatException e)
+							{
+								e.printStackTrace();
+							}
 						}
 						payloadData.Sen_7_Key = mySqlDataParsed.Sen_7_Key;
 						if(!mySqlDataParsed.Sen_7_Value.contentEquals(""))
 						{
-							payloadData.Sen_7_Value = Double.parseDouble(mySqlDataParsed.Sen_7_Value);
+							try
+							{
+								payloadData.Sen_7_Value = Double.parseDouble(mySqlDataParsed.Sen_7_Value);
+							}
+							catch(NumberFormatException e)
+							{
+								e.printStackTrace();
+							}
 						}
 						payloadData.Sen_8_Key = mySqlDataParsed.Sen_8_Key;
 						if(!mySqlDataParsed.Sen_8_Value.contentEquals(""))
 						{
-							payloadData.Sen_8_Value = Double.parseDouble(mySqlDataParsed.Sen_8_Value);
+							try
+							{
+								payloadData.Sen_8_Value = Double.parseDouble(mySqlDataParsed.Sen_8_Value);
+							}
+							catch(NumberFormatException e)
+							{
+								e.printStackTrace();
+							}
 						}
 						payloadData.Sen_9_Key = mySqlDataParsed.Sen_9_Key;
 						if(!mySqlDataParsed.Sen_9_Value.contentEquals(""))
 						{
-							payloadData.Sen_9_Value = Double.parseDouble(mySqlDataParsed.Sen_9_Value);
+							try
+							{
+								payloadData.Sen_9_Value = Double.parseDouble(mySqlDataParsed.Sen_9_Value);
+							}
+							catch(NumberFormatException e)
+							{
+								e.printStackTrace();
+							}
 						}
 						payloadData.Sen_10_Key = mySqlDataParsed.Sen_10_Key;
 						if(!mySqlDataParsed.Sen_10_Value.contentEquals(""))
 						{
-							payloadData.Sen_10_Value = Double.parseDouble(mySqlDataParsed.Sen_10_Value);
+							try
+							{
+								payloadData.Sen_10_Value = Double.parseDouble(mySqlDataParsed.Sen_10_Value);
+							}
+							catch(NumberFormatException e)
+							{
+								e.printStackTrace();
+							}
 						}
-						System.out.println(mySqlDataParsed.GPS_Alt);
 						
 						if(mySqlDataParsed.GPS_Alt.matches("[0-9]+") | mySqlDataParsed.GPS_Alt.contains(".") )  // Need to handel this better
 						{
-							payloadData.alt = Double.parseDouble(mySqlDataParsed.GPS_Alt);
+							try
+							{
+								payloadData.alt = Double.parseDouble(mySqlDataParsed.GPS_Alt);
+							}
+							catch(NumberFormatException e)
+							{
+								e.printStackTrace();
+							}
 						}
 						if(mySqlDataParsed.GPS_Lon.matches("[0-9]+") | mySqlDataParsed.GPS_Alt.contains("."))
 						{
-							payloadData.lon = Double.parseDouble(mySqlDataParsed.GPS_Lon);
+							try
+							{
+								payloadData.lon = Double.parseDouble(mySqlDataParsed.GPS_Lon);
+							}
+							catch(NumberFormatException e)
+							{
+								e.printStackTrace();
+							}
 						}
 						if(mySqlDataParsed.GPS_Lat.matches("[0-9]+") | mySqlDataParsed.GPS_Alt.contains("."))
 						{
-							payloadData.lat = Double.parseDouble(mySqlDataParsed.GPS_Lat);
+							try
+							{
+								payloadData.lat = Double.parseDouble(mySqlDataParsed.GPS_Lat);
+							}
+							catch(NumberFormatException e)
+							{
+								e.printStackTrace();
+							}
 						}
 						
 						payloadData.timeStamp = System.currentTimeMillis();
+						
+						if(brodcastMessage != null)
+						{
+							payloadData.brodcastMessage = brodcastMessage;
+						}
+						
 						payloadDataVector.addElement(payloadData);
 						payloadData = new PayloadData();
 						payloadLogger.recieveText(tempGpsData);
 						payloadLogger.recieveText(tempScienceData);	
 					}
 				}
+			
 			}
-			try { Thread.sleep(10); } catch(InterruptedException e) { }
+			try { Thread.sleep(10); } catch(InterruptedException e) {e.printStackTrace();}
 		}
 	}
 	
 	public void StreamOut(String sendText)
 	{
 		streamOut.streamOut(sendText);
+	}
+	
+	public void updateBrodcastMessage(BrodcastMessage brodcastMessage)
+	{
+		this.brodcastMessage = brodcastMessage;
+		System.out.println("BrodcastmessageRecived");
 	}
 }

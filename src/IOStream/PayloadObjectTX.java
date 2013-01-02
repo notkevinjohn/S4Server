@@ -16,9 +16,16 @@ public class PayloadObjectTX
 		{
 			objectOutputStream.writeObject(payloadLastData);
 			objectOutputStream.flush();
+			objectOutputStream.reset();
 		} 
 		catch (IOException e)
 		{
+			try {
+				objectOutputStream.reset();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			e.printStackTrace();
 		}
 
