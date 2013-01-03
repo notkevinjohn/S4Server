@@ -173,13 +173,13 @@ public class ListentoUDP  extends Thread
 	public void  BrodcastMessageUpdate(String payloadName)
 	{
 		
-		if(controller.payloadDataList != null)
+		if(controller.payloadDataControllerList != null)
 		{
-			for(int i = 0; i < controller.payloadDataList.size(); i++)
+			for(int i = 0; i < controller.payloadDataControllerList.size(); i++)
 			{
-				if(payloadName.equals(controller.payloadDataList.get(i).deviceName) && controller.payloadDataList.size() >0 && controller.payloadDataList.get(0).payloadDataVector.size() > 0)
+				if(payloadName.equals(controller.payloadDataControllerList.get(i).deviceName) && controller.payloadDataControllerList.size() >0 && controller.payloadDataControllerList.get(0).payloadDataVector.size() > 0)
 				{
-					controller.payloadDataList.get(i).updateBrodcastMessage(brodcastMessage);
+					controller.payloadDataControllerList.get(i).updateBrodcastMessage(brodcastMessage);
 				}
 			}
 		}

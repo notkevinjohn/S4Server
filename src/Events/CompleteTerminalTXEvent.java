@@ -2,16 +2,16 @@ package Events;
 
 import java.util.EventObject;
 
+import Data.Command;
+
 public class CompleteTerminalTXEvent extends EventObject 
 {
 	private static final long serialVersionUID = 1193711128248938869L;
-	public int payloadNumber;
-	public String sendString;
+	public Command command;
 		
-	public  CompleteTerminalTXEvent (Object source, int payloadNumber, String sendString)
+	public  CompleteTerminalTXEvent (Object source, Command command)
 	{
 		super(source);
-		this.payloadNumber = payloadNumber;
-		this.sendString = sendString;
+		this.command = command;
 	}
 }

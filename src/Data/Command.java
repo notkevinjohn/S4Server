@@ -11,12 +11,12 @@ public class Command implements Serializable
 	 */
 	private static final long serialVersionUID = -6747567172135677536L;
 	
-	public long timeStamp;
-	public String payloadName;
-	public String terminalName;
-	public boolean commandOne;
-	public boolean commandTwo;
-	public boolean commandThree;
-	public boolean commandFour;
-	public boolean getPayloadList;
+	public long timeStamp = 0;
+	public String payloadName = null;
+	public String terminalName = null;
+	public boolean commandOne = false;
+	public boolean commandTwo = false;
+	public boolean commandThree = false;
+	public boolean commandFour = false;
+	public boolean getPayloadList = false;
 }

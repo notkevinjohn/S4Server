@@ -11,17 +11,17 @@ import SocketHandelers.PayloadDataController;
 public class ConnectPayloadSocket extends Thread
 {
 	private int payloadPort = 2000;
-	private Payload payload;
+	//private Payload payload;
 	private ServerSocket serverInSocket;
-	public Vector<PayloadDataController> payloadDataList;
+	public Vector<PayloadDataController> payloadDataControllerList;
 	public  Vector<Payload> payloadList;
 	public Controller controller;
 	
 	public ConnectPayloadSocket(Controller controller)
 	{
 		this.controller = controller;
-		payloadList = new Vector<Payload>();
-		payloadDataList = new Vector<PayloadDataController>();
+		//payloadList = new Vector<Payload>();
+	//	payloadDataControllerList = new Vector<PayloadDataController>();
 		
 		try 
 		{
@@ -57,14 +57,22 @@ public class ConnectPayloadSocket extends Thread
 	
 	public void attachPayload(Socket socket)
 	{
-		GetName getName = new GetName(controller);
-		payload = new Payload();
-		payload.socket = socket;
-		payload.deviceName = getName.getPName(socket);
-		payloadList.add(payload);
+		GetNameFromPayload getNameFromPayload = new GetNameFromPayload(socket);
+		if(getNameFromPayload.nameFromPayload())
+		{
+			System.out.println(getNameFromPayload.payloadName);
+			PayloadDataController payloadDataController = new PayloadDataController(socket, controller, getNameFromPayload.payloadName);
+			controller.payloadDataControllerList.add(payloadDataController);
+		}
+		
+	//	GetPayloadNameFromTerminal getName = new GetPayloadNameFromTerminal(controller);
+//		payload = new Payload();
+//		payload.socket = socket;
+//		payload.deviceName = getName.getPName(socket);
+//		payloadList.add(payload);
 	
-		PayloadDataController payloadDataController = new PayloadDataController(socket, controller, payload.deviceName);
-		payloadDataList.add(payloadDataController);
-		controller.UPDatePayloadList(payloadDataList,payloadList);
+//		PayloadDataController payloadDataController = new PayloadDataController(socket, controller, payload.deviceName);
+//		payloadDataControllerList.add(payloadDataController);
+//		controller.UPDatePayloadList(payloadDataControllerList,payloadList);
 	}
 }

@@ -5,6 +5,7 @@ import java.net.Socket;
 import java.util.Vector;
 
 import Data.BrodcastMessage;
+import Data.Command;
 import Data.PayloadData;
 import FileWriters.PayloadLogger;
 import IOStream.GetStreamIn;
@@ -30,17 +31,17 @@ public class PayloadDataController extends Thread
 	public BrodcastMessage brodcastMessage;
 	
 	
-	public PayloadDataController(Socket socket, Controller controller, String deviceName)
+	public PayloadDataController(Socket socket, Controller controller, String payloadDeviceName)
 	{
 		this.socket = socket;
-		this.deviceName = deviceName;
+		this.deviceName = payloadDeviceName;
 		getStreamIn = new GetStreamIn();
 		streamOut = new SendStreamOut();
 		streamOut.attachSocket(socket);
 		payloadDataVector = new Vector<PayloadData>();
 		payloadData = new PayloadData();
 		payloadLogger = new PayloadLogger();
-		payloadLogger.payloadLogger(deviceName);
+		payloadLogger.payloadLogger(payloadDeviceName);
 		this.start();
 		mySqlData = new InsertDataIntoDatabase();
 		
@@ -268,5 +269,24 @@ public class PayloadDataController extends Thread
 	{
 		this.brodcastMessage = brodcastMessage;
 		System.out.println("BrodcastmessageRecived");
+	}
+	public void PassOnCommand(Command command)
+	{
+		if(command.commandOne == true)
+		{
+			StreamOut("&1");
+		}
+		else if(command.commandTwo == true)
+		{
+			StreamOut("&2");
+		}
+		else if(command.commandThree == true)
+		{
+			StreamOut("&2");
+		}
+		else if(command.commandFour == true)
+		{
+			StreamOut("&2");
+		}
 	}
 }

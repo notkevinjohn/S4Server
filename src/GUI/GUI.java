@@ -14,8 +14,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
-
-import Data.PayloadData;
 import Main.Controller;
 
 public class GUI extends JFrame {
@@ -115,21 +113,22 @@ public class GUI extends JFrame {
         public void run() 
         {
         	textArea.setText("");
-        	if(controller.payloadList != null)
+        	
+        	if(controller.payloadDataControllerList != null)
         	{
-	        	for(int i= 0; i < controller.payloadList.size(); i++ )
+	        	for(int i= 0; i < controller.payloadDataControllerList.size(); i++)
 	        	{
-	        		textArea.append(controller.payloadList.get(i).deviceName);
+	        		textArea.append(controller.payloadDataControllerList.get(i).deviceName);
 	        		textArea.append("\n");
 	        		
-	        		if(controller.terminalDataList != null)
+	        		if(controller.terminalDataControllerList != null)
 	        		{
-		        		for(int j = 0; j < controller.terminalDataList.size(); j++)
+		        		for(int j = 0; j < controller.terminalDataControllerList.size(); j++)
 		        		{
-		        			if(controller.payloadList.get(i).deviceName.equals(controller.terminalDataList.get(j).payloadDeviceName))
+		        			if(controller.payloadDataControllerList.get(i).deviceName.equals(controller.terminalDataControllerList.get(j).payloadDeviceName))
 		        			{
 		        				String tempString = "    -";
-		        				tempString += controller.terminalDataList.get(j).socket.getInetAddress();
+		        				tempString += controller.terminalDataControllerList.get(j).socket.getInetAddress();
 		        				tempString += "\n";
 		        				textArea.append(tempString);
 		        			}

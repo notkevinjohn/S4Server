@@ -1,7 +1,6 @@
 package Data;
 
 import java.io.Serializable;
-import java.util.Vector;
 
 public class PayloadData implements Serializable
 {
@@ -38,6 +37,6 @@ public class PayloadData implements Serializable
 	public String Sen_10_Key;
 	public double Sen_10_Value;
 	public BrodcastMessage brodcastMessage;
-	public Vector<TerminalPayloadList> PayloadList;
+	public PayloadDeviceNameList PayloadList;
 	
 }

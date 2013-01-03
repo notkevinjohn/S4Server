@@ -12,9 +12,9 @@ public class CompletePayloadTXEventListener implements ICompletePayloadTXEventLi
 	}
 	public void CompleteTXEventHandler(CompletePayloadTXEvent event) 
 	{
-		if(controller.terminalDataList != null && controller.terminalDataList.size() >= event.payloadNumber )
+		if(controller.terminalDataControllerList != null && controller.terminalDataControllerList.size() >= event.payloadNumber )
 		{
-			controller.terminalDataList.get(event.payloadNumber).StreamOut(event.sendString);
+//			controller.terminalDataList.get(event.payloadNumber).StreamOut(event.sendString);
 		}
 		else
 		{

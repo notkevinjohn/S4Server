@@ -1,27 +1,20 @@
 package Events;
 
-import Main.Controller;
+import SocketHandelers.TerminalDataController;
 
 public class CompleteTerminalTXEventListener implements ICompleteTerminalTXEventListener
 {
-	private Controller controller;
+	private TerminalDataController terminalDataController;
 	
-	public CompleteTerminalTXEventListener (Controller controller)
+	public CompleteTerminalTXEventListener (TerminalDataController terminalDataController)
 	{
-		this.controller = controller;
+		this.terminalDataController = terminalDataController;
 	}
 	
-	public void CompleteTXEventHandler(CompleteTerminalTXEvent event) 
-	{
-		if(controller.payloadDataList != null && controller.payloadDataList.size() >= event.payloadNumber)
-		{
-			controller.payloadDataList.get(event.payloadNumber).StreamOut(event.sendString);
-		}
-		else
-		{
-			System.out.println("Payload not Connected");
-		}
 
+	public void CompleteTerminalTXEventHandler(CompleteTerminalTXEvent event) {
+		// TODO Auto-generated method stub
+		
 	}
 }
 
