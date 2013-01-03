@@ -5,7 +5,6 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Vector;
 import Data.Payload;
-import Data.GetName;
 import Main.Controller;
 import SocketHandelers.PayloadDataController;
 

@@ -3,33 +3,39 @@ package IOStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-
-import Data.PayloadData;
+import Data.PayloadRX;
 
 public class PayloadObjectTX
 {
 	public ObjectOutputStream objectOutputStream;
+	public Socket socket;
 	
-	public void sendObject(Socket socket, PayloadData payloadLastData, ObjectOutputStream objectOutputStream)
+	public PayloadObjectTX(Socket socket)
+	{
+		this.socket = socket;
+		try 
+		{
+			objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+		} 
+		catch (IOException e) 
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	public void sendPayloadObject(PayloadRX payloadRX)
 	{
 		try 
 		{
-			objectOutputStream.writeObject(payloadLastData);
+			objectOutputStream.writeObject(payloadRX);
 			objectOutputStream.flush();
 			objectOutputStream.reset();
 		} 
 		catch (IOException e)
 		{
-			try {
-				objectOutputStream.reset();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
 			e.printStackTrace();
 		}
 
 	}
-
 }
 

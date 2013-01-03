@@ -8,14 +8,18 @@ import Connection.ConnectTerminalSocket;
 import Connection.ListentoUDP;
 import Data.Payload;
 import Data.PayloadData;
+import Data.PayloadRX;
 import Data.TerminalPayloadList;
+import Events.CompleteConnectEvent;
 import Events.CompletePayloadTXEventListener;
 import Events.CompleteTerminalTXEventListener;
+import Events.ICompleteConnectEventListener;
 import Events.ICompletePayloadTXEventListener;
 import Events.ICompleteTerminalTXEventListener;
 import GUI.GUI;
 import IOStream.PayloadObjectTX;
 import IOStream.SendStreamOut;
+import Socket.Connect;
 import SocketHandelers.PayloadDataController;
 import SocketHandelers.TerminalDataController;
 
@@ -48,7 +52,7 @@ public class Controller extends Thread
 		connectTerminalSocket.start();
 		
 		streamOut = new SendStreamOut();
-		payloadObjectTX = new PayloadObjectTX();
+
 		
 		terminalPayloadList = new TerminalPayloadList();
 		payloadListVector = new Vector<TerminalPayloadList>();
@@ -98,11 +102,29 @@ public class Controller extends Thread
 				streamOut.attachSocket(termDataController.socket);
 				streamOut.streamOut("PayloadUpdate");
 				try { Thread.sleep(30); } catch(InterruptedException e) { } // to not overload the output stream
-				payloadObjectTX.sendObject(termDataController.socket, payloadLastData, objectOutputStream);
+				//payloadObjectTX.sendObject(termDataController.socket, payloadLastData, objectOutputStream);
 			}
 		}
 	}
 	
+	public void requestPayloadDataUpdate(TerminalDataController terminalDataController, long lastReciveTimeStamp, String payloadDeviceName)
+	{
+		PayloadRX payloadRX = new PayloadRX();
+		
+		//scrub mySqlDatabase
+//		CompleteConnectEvent complete = new CompleteConnectEvent(this,ip,port,terminalName);
+//		Object[] listeners = Connect.listenerList.getListenerList(); 
+//   		for (int i=0; i<listeners.length; i+=2) 
+//   		{
+//             if (listeners[i]==ICompleteConnectEventListener.class)
+//             {
+//                 ((ICompleteConnectEventListener)listeners[i+1]).completeConnectEventHandler(complete);
+//             }
+//        } 		 
+		
+		
+		
+	}
 	public static void addCompletePayloadTXEventListener (ICompletePayloadTXEventListener completeTXEventListener)
 	{
 		listenerList.add(ICompletePayloadTXEventListener.class, completeTXEventListener);

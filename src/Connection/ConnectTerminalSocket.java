@@ -6,8 +6,9 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Vector;
-import Data.GetName;
 import Data.Terminal;
+import IOStream.CommandObjectRX;
+import IOStream.PayloadObjectTX;
 import Main.Controller;
 import SocketHandelers.TerminalDataController;
 
@@ -21,6 +22,9 @@ public class ConnectTerminalSocket extends Thread
 	public ServerSocket serverTerminalSocket;
 	public Vector<TerminalDataController> terminalDataList;
 	public ObjectOutputStream objectOutputStream;
+	public PayloadObjectTX payloadObjectTX;
+	public CommandObjectRX commandObjectRX;
+	
 	public ConnectTerminalSocket(Controller controller)
 	{
 		this.controller = controller;
@@ -39,17 +43,31 @@ public class ConnectTerminalSocket extends Thread
 	
 	public void attachTerminal(Socket socket)
 	{
-			GetName getName = new GetName(controller);
+		payloadObjectTX = new PayloadObjectTX(socket);
+		commandObjectRX = new CommandObjectRX(socket);
+		
+		GetName getName = new GetName(controller, payloadObjectTX, commandObjectRX);
+		
+		if(getName.getPayloadName(socket))
+		{
 			terminal = new Terminal();
-			terminal.socket = socket;
-			terminal.deviceName = getName.getPName(socket);
-			objectOutputStream = getName.objectOutputStream;
-			terminalList.add(terminal);
-			
-			TerminalDataController terminalDataController = new TerminalDataController(socket, terminal.deviceName,controller,objectOutputStream);
+			//terminalList.add(terminal);
+			TerminalDataController terminalDataController = new TerminalDataController(getName.command.payloadName, getName.command.terminalName, controller, getName.payloadObjectTX, getName.commandObjectRX);
 			terminalDataList.add(terminalDataController);
 			controller.UpDateTerminalList(terminalDataList);
-			controller.objectOutputStream = objectOutputStream;
+			
+		}
+		
+//		terminal = new Terminal();
+//			terminal.socket = socket;
+//			terminal.deviceName = getName.getPName(socket);
+//			objectOutputStream = getName.objectOutputStream;
+//			terminalList.add(terminal);
+//			
+//			TerminalDataController terminalDataController = new TerminalDataController(socket, terminal.deviceName,controller,objectOutputStream);
+//			terminalDataList.add(terminalDataController);
+//			controller.UpDateTerminalList(terminalDataList);
+//			controller.objectOutputStream = objectOutputStream;
 	}
 	public void run() 
 	{
