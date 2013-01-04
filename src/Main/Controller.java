@@ -89,7 +89,7 @@ public class Controller extends Thread
 	
 	public void requestPayloadDataUpdate(PayloadObjectTX payloadObjectTX, long lastReciveTimeStamp, String payloadDeviceName)
 	{
-		new QuarryMySql(this, lastReciveTimeStamp, payloadDeviceName);
+		new QuarryMySql(lastReciveTimeStamp, payloadDeviceName);
 	}
 	
 	public void sendPayloadDataToTerminalController(Command command, String terminalName)

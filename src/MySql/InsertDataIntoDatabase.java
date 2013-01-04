@@ -124,6 +124,8 @@ public class InsertDataIntoDatabase
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		new QuarryMySql(System.currentTimeMillis()-2000,"SSU-01");
+		
 		return mySqlDataParsed;
 	}
 }

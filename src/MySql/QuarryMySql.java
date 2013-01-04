@@ -18,7 +18,7 @@ public class QuarryMySql extends Thread
 	private long lastReciveTimeStamp;
 	private String payloadDeviceName;
 	private Command command;
-	private Controller controller;
+	//private Controller controller;
 	
 	public String databaseURL = "jdbc:mysql://localhost:3306";
 	public String databaseName = "/S4";
@@ -31,17 +31,17 @@ public class QuarryMySql extends Thread
 	public String tableName = "S4PayloadData ";
 	public Vector<String> records;
 	
-	public QuarryMySql(Controller controller, long lastReciveTimeStamp, String payloadDeviceName)
+	public QuarryMySql(long lastReciveTimeStamp, String payloadDeviceName)
 	{
 		this.payloadDeviceName = payloadDeviceName;
 		this.lastReciveTimeStamp = lastReciveTimeStamp;
-		this.controller = controller;
 		
 		command = new Command();
 		this.start();
 	}
 	public void run() 
 	{
+		ConnectToDatabase();
 		
 	}
 	
@@ -62,6 +62,7 @@ public class QuarryMySql extends Thread
 		{
 			e.printStackTrace();
 		}
+		QueryDatabase();
 	}
 	public void QueryDatabase()
 	{
@@ -77,7 +78,9 @@ public class QuarryMySql extends Thread
 		try {
 			statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery("SELECT GPS_Data FROM S4PayloadData");
-			System.out.println(resultSet.getString(1));
+			
+			
+			System.out.println(resultSet.toString());
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
