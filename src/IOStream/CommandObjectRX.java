@@ -27,6 +27,8 @@ public class CommandObjectRX
 
 	public Command getCommandObject()	
 	{	
+		System.out.println("Getcommand");
+		command = new Command();
 		try 
 		{
 			command = (Command)objectInputStream.readObject();
@@ -37,7 +39,9 @@ public class CommandObjectRX
 		catch(IOException e)
 		{
 		}
-			
+		
+		System.out.println("Sendcommand");
+		
 		return command;
 	}
 }

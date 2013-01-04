@@ -1,12 +1,9 @@
 package Connection;
 
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.Vector;
-import Data.Terminal;
 import IOStream.CommandObjectRX;
 import IOStream.PayloadObjectTX;
 import Main.Controller;
@@ -16,20 +13,15 @@ import SocketHandelers.TerminalDataController;
 public class ConnectTerminalSocket extends Thread
 {
 	private int terminalPort = 2001;
-	private Terminal terminal;
-	private Vector<Terminal> terminalList;
 	private Controller controller;
-	public ServerSocket serverTerminalSocket;
-	public Vector<TerminalDataController> terminalDataList;
-	public ObjectOutputStream objectOutputStream;
-	public PayloadObjectTX payloadObjectTX;
-	public CommandObjectRX commandObjectRX;
+	private ServerSocket serverTerminalSocket;
+	private PayloadObjectTX payloadObjectTX;
+	private CommandObjectRX commandObjectRX;
+	private GetPayloadNameFromTerminal getName;
 	
 	public ConnectTerminalSocket(Controller controller)
 	{
 		this.controller = controller;
-		terminalDataList = new Vector<TerminalDataController>();
-		terminalList = new Vector<Terminal>();
 		
 		try 
 		{
@@ -41,34 +33,6 @@ public class ConnectTerminalSocket extends Thread
 		}
 	}
 	
-	public void attachTerminal(Socket socket)
-	{
-		payloadObjectTX = new PayloadObjectTX(socket);
-		commandObjectRX = new CommandObjectRX(socket);
-		
-		GetName getName = new GetName(controller, payloadObjectTX, commandObjectRX);
-		
-		if(getName.getPayloadName(socket))
-		{
-			terminal = new Terminal();
-			//terminalList.add(terminal);
-			TerminalDataController terminalDataController = new TerminalDataController(getName.command.payloadName, getName.command.terminalName, controller, getName.payloadObjectTX, getName.commandObjectRX);
-			terminalDataList.add(terminalDataController);
-			controller.UpDateTerminalList(terminalDataList);
-			
-		}
-		
-//		terminal = new Terminal();
-//			terminal.socket = socket;
-//			terminal.deviceName = getName.getPName(socket);
-//			objectOutputStream = getName.objectOutputStream;
-//			terminalList.add(terminal);
-//			
-//			TerminalDataController terminalDataController = new TerminalDataController(socket, terminal.deviceName,controller,objectOutputStream);
-//			terminalDataList.add(terminalDataController);
-//			controller.UpDateTerminalList(terminalDataList);
-//			controller.objectOutputStream = objectOutputStream;
-	}
 	public void run() 
 	{
 		while(true)
@@ -77,7 +41,6 @@ public class ConnectTerminalSocket extends Thread
 			{
 				Socket socket = serverTerminalSocket.accept();
 				attachTerminal(socket);
-				
 			}
 			catch (UnknownHostException e1) 
 			{
@@ -87,8 +50,21 @@ public class ConnectTerminalSocket extends Thread
 			{	
 				e1.printStackTrace();
 			}
-			
 			try { Thread.sleep(10); } catch(InterruptedException e) { /* we tried */}
+		}
+	}
+	
+	public void attachTerminal(Socket socket)
+	{
+		payloadObjectTX = new PayloadObjectTX(socket);
+		commandObjectRX = new CommandObjectRX(socket);
+		
+		getName = new GetPayloadNameFromTerminal(controller, payloadObjectTX, commandObjectRX);
+		
+		if(getName.getPayloadName(socket))
+		{
+			TerminalDataController terminalDataController = new TerminalDataController(getName.command.payloadName, getName.command.terminalName, controller, getName.payloadObjectTX, getName.commandObjectRX,socket);
+			controller.terminalDataControllerList.add(terminalDataController);
 		}
 	}
 }
