@@ -5,7 +5,10 @@ import Connection.ConnectPayloadSocket;
 import Connection.ConnectTerminalSocket;
 import Connection.ListentoUDP;
 import Data.Command;
+import Data.PayloadRX;
 import Events.CompletePayloadTXEventListener;
+import Events.CompleteTerminalTXEvent;
+import Events.CompleteTerminalTXEventListener;
 import Events.ICompletePayloadTXEventListener;
 import Events.ICompleteTerminalTXEventListener;
 import GUI.GUI;
@@ -87,9 +90,10 @@ public class Controller extends Thread
 //	}
 	
 	
-	public void requestPayloadDataUpdate(PayloadObjectTX payloadObjectTX, long lastReciveTimeStamp, String payloadDeviceName)
+	public void requestPayloadDataUpdate(TerminalDataController terminalDataController, PayloadObjectTX payloadObjectTX, long lastReciveTimeStamp, String payloadDeviceName)
 	{
-		new QuarryMySql(lastReciveTimeStamp, payloadDeviceName);
+		addCompletedTerminalTXEventListener(new CompleteTerminalTXEventListener(this, lastReciveTimeStamp, payloadDeviceName, terminalDataController));	
+		//new QuarryMySql(this, lastReciveTimeStamp, payloadDeviceName);
 	}
 	
 	public void sendPayloadDataToTerminalController(Command command, String terminalName)
@@ -113,16 +117,15 @@ public class Controller extends Thread
 			}
 		}
 	}
-//	
-//	
+	
 //	public static void addCompletePayloadTXEventListener (ICompletePayloadTXEventListener completeTXEventListener)
 //	{
 //		listenerList.add(ICompletePayloadTXEventListener.class, completeTXEventListener);
 //	}
-//	public static void addCompletedTerminalTXEventListener (ICompleteTerminalTXEventListener completeTerminalTXEventListener)
-//	{
-//		listenerList.add(ICompleteTerminalTXEventListener.class, completeTerminalTXEventListener);
-//	}
+	public static void addCompletedTerminalTXEventListener (ICompleteTerminalTXEventListener completeTerminalTXEventListener)
+	{
+		listenerList.add(ICompleteTerminalTXEventListener.class, completeTerminalTXEventListener);
+	}
 
 
 }

@@ -51,7 +51,7 @@ public class TerminalDataController extends Thread
 				
 				if(command.getPayloadList == false)
 				{
-					controller.requestPayloadDataUpdate(payloadObjectTX, command.timeStamp, command.payloadName);
+					controller.requestPayloadDataUpdate(this,payloadObjectTX, command.timeStamp, command.payloadName);
 				}
 				else
 				{

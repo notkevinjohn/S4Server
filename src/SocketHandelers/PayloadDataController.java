@@ -69,7 +69,7 @@ public class PayloadDataController extends Thread
 			if(available > 0)
 			{
 				streamInString = getStreamIn.StreamIn(socket);
-				System.out.println(streamInString);
+				//System.out.println(streamInString);
 				  	
 				if(streamInString.startsWith("$GPGGA"))
 				{
@@ -268,7 +268,6 @@ public class PayloadDataController extends Thread
 	public void updateBrodcastMessage(BrodcastMessage brodcastMessage)
 	{
 		this.brodcastMessage = brodcastMessage;
-		System.out.println("BrodcastmessageRecived");
 	}
 	public void PassOnCommand(Command command)
 	{

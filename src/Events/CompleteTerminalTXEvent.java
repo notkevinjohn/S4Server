@@ -1,17 +1,18 @@
 package Events;
 
 import java.util.EventObject;
-
-import Data.Command;
+import Data.PayloadRX;
+import SocketHandelers.TerminalDataController;
 
 public class CompleteTerminalTXEvent extends EventObject 
 {
 	private static final long serialVersionUID = 1193711128248938869L;
-	public Command command;
-		
-	public  CompleteTerminalTXEvent (Object source, Command command)
+	public PayloadRX payloadRX;
+	public TerminalDataController terminalDataController;
+	
+	public  CompleteTerminalTXEvent (Object source, PayloadRX payloadRX)
 	{
 		super(source);
-		this.command = command;
+		this.payloadRX = payloadRX;
 	}
 }

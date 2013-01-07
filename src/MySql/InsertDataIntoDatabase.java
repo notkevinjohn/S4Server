@@ -51,11 +51,13 @@ public class InsertDataIntoDatabase
 		
 		
 		try {
+			long time = System.currentTimeMillis();
+			
 			stmt = connection.createStatement();
 			String insetStatement = "INSERT INTO " +
 					tableName +
 					"VALUES('" +
-					System.currentTimeMillis() +
+					time +
 					"','" +
 					payloadName +
 					"','" +
@@ -115,16 +117,15 @@ public class InsertDataIntoDatabase
 					"');";
 			
 			stmt.executeUpdate(insetStatement);
-			System.out.println("Complete");
-			
+
 		
+			
 			stmt.close();
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		new QuarryMySql(System.currentTimeMillis()-2000,"SSU-01");
 		
 		return mySqlDataParsed;
 	}
