@@ -137,9 +137,8 @@ public class ListentoUDP  extends Thread
 //			   tempString +=  Long.parseLong(brodcastMessage.BatteryVoltage, 16);
 //			   tempString += "\r";
 //			 //  System.out.println(tempString); 
-	
-		BrodcastMessageUpdate(brodcastMessage.DeviceID.substring(0, 6));
 		
+		BrodcastMessageUpdate(brodcastMessage.DeviceID.substring(0, 6));
 	}
 	public void  BrodcastMessageUpdate(String payloadName)
 	{

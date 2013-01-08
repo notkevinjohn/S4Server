@@ -45,7 +45,7 @@ public class CreateTable
 					"Sen_5_Value varchar(20), Sen_6_Key varchar(20), Sen_6_Value varchar(20), " +
 					"Sen_7_Key varchar(20), Sen_7_Value varchar(20), Sen_8_Key varchar(20), " +
 					"Sen_8_Value varchar(20), Sen_9_Key varchar(20), Sen_9_Value varchar(20), " +
-					"Sen_10_Key varchar(20), Sen_10_Value varchar(20))";
+					"Sen_10_Key varchar(20), Sen_10_Value varchar(20), Brodcast_RSSI varchar(10), Brodcast_Bat varchar(10))";
 			
 			stmt.executeUpdate(table);
 				

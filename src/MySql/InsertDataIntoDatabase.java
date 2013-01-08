@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Vector;
 
+import Data.BrodcastMessage;
 import Parser.MySqlData;
 import Parser.Parser;
 
@@ -21,7 +22,7 @@ public class InsertDataIntoDatabase
 	public MySqlData mySqlDataParsed;
 	public String tableName = "S4PayloadData ";
 	public Vector<String> records;
-	
+	public BrodcastMessage brodcastMessage;
 	
 	public InsertDataIntoDatabase()
 	{
@@ -43,12 +44,11 @@ public class InsertDataIntoDatabase
 		parser = new Parser();
 	}
 	
-	public MySqlData insertDataIntoDatabase(String payloadName, String gpsData, String sensorData)
+	public MySqlData insertDataIntoDatabase(String payloadName, String gpsData, String sensorData, BrodcastMessage brodcastMessage)
 	{
 		Statement stmt;
 		
 		mySqlDataParsed = parser.parseData(gpsData, sensorData + ",");  // , makes the last value to be parsed by parser
-		
 		
 		try {
 			long time = System.currentTimeMillis();
@@ -114,6 +114,10 @@ public class InsertDataIntoDatabase
 					mySqlDataParsed.Sen_10_Key +
 					"','" +
 					mySqlDataParsed.Sen_10_Value +
+					"','" +
+					brodcastMessage.RSSI +
+					"','" +
+					brodcastMessage.BatteryVoltage +
 					"');";
 			
 			stmt.executeUpdate(insetStatement);

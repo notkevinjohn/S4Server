@@ -147,70 +147,71 @@ public class Parser
 //		
 		
 		return mySqlData;
-		
 	}
-	
-	public void Index(String string)
-	{
-		
-		if(beginIndex < string.length() && beginIndex > 0)
-		{
-			beginIndex = string.indexOf(',', endIndex)+1;
-		}
-		else
-		{
-			beginIndex = 0;
-		}
-		
-		
-		
-		if(endIndex < string.length() && endIndex > 0)
-		{
-			endIndex = string.indexOf(',', beginIndex+1);
-		}
-		
-		if(endIndex < string.length() && endIndex > 0)
-		{
-		}
-		else
-		{
-			endIndex = 0;
-			beginIndex = 0;
-		}
-		
-		
-	}
-	
-	public String GPSLat(String gpsData)
-	{
-		String gps_Lat = gpsData.substring(beginIndex, endIndex);
-		Index(gpsData);
-		String direction = gpsData.substring(beginIndex, endIndex);
-		
-		if(direction.equals("S"))
-		{
-			String tempString = "-";
-			gps_Lat = tempString += gps_Lat;
-		}
-		
-		return gps_Lat;
-	}
-	
-	public String GPSLon(String gpsData)
-	{
-		String gps_Lon = gpsData.substring(beginIndex, endIndex);
-		Index(gpsData);
-		String direction = gpsData.substring(beginIndex, endIndex);
-		
-		if(direction.equals("W"))
-		{
-			String tempString = "-";
-			gps_Lon = tempString += gps_Lon;
-		}
-		
-		return gps_Lon;
-	}
-	
-	
 }
+//	}
+//	
+//	public void Index(String string)
+//	{
+//		
+//		if(beginIndex < string.length() && beginIndex > 0)
+//		{
+//			beginIndex = string.indexOf(',', endIndex)+1;
+//		}
+//		else
+//		{
+//			beginIndex = 0;
+//		}
+//		
+//		
+//		
+//		if(endIndex < string.length() && endIndex > 0)
+//		{
+//			endIndex = string.indexOf(',', beginIndex+1);
+//		}
+//		
+//		if(endIndex < string.length() && endIndex > 0)
+//		{
+//		}
+//		else
+//		{
+//			endIndex = 0;
+//			beginIndex = 0;
+//		}
+//		
+//		
+//	}
+//	
+//	public String GPSLat(String gpsData)
+//	{
+//		String gps_Lat = gpsData.substring(beginIndex, endIndex);
+//		Index(gpsData);
+//		String direction = gpsData.substring(beginIndex, endIndex);
+//		
+//		if(direction.equals("S"))
+//		{
+//			String tempString = "-";
+//			gps_Lat = tempString += gps_Lat;
+//		}
+//		
+//		return gps_Lat;
+//	}
+//	
+//	public String GPSLon(String gpsData)
+//	{
+//		String gps_Lon = gpsData.substring(beginIndex, endIndex);
+//		Index(gpsData);
+//		String direction = gpsData.substring(beginIndex, endIndex);
+//		
+//		if(direction.equals("W"))
+//		{
+//			String tempString = "-";
+//			gps_Lon = tempString += gps_Lon;
+//		}
+//		
+//		return gps_Lon;
+//	}
+	
+	
+//}
 

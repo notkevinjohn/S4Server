@@ -18,6 +18,8 @@ public class TerminalDataController extends Thread
 	public String terminalName;
 	public Command command;
 	public PayloadObjectTX payloadObjectTX;
+	private long terminalLastData = System.currentTimeMillis();
+	private long timeout = 5000;
 	
 	public TerminalDataController(String payloadDeviceName, String terminalName, Controller controller, PayloadObjectTX payloadObjectTX, CommandObjectRX commandObjectRX, Socket socket)
 	{
@@ -45,29 +47,45 @@ public class TerminalDataController extends Thread
 			
 			if(available > 0)
 			{
+				terminalLastData = System.currentTimeMillis();
+				
 				command = new Command();
 				command = commandObjectRX.getCommandObject();
 				
-				if(command.getPayloadList == false)
+				if(command.getPayloadList == false && command.timeStamp != -1)
 				{
-					controller.requestPayloadDataUpdate(this,payloadObjectTX, command.timeStamp, command.payloadName);
+					controller.requestPayloadDataUpdate(this,payloadObjectTX, command.timeStamp, command.payloadName, command);
+				}
+				else if (command.getPayloadList == false && command.timeStamp == -1)
+				{
+					controller.passOnCommandToPayload(payloadDeviceName, command);
 				}
 				else
 				{
 					// take care of payload update requests while running
 				}
 				
-				if(command.commandOne == true || command.commandTwo == true || command.commandThree == true || command.commandFour == true)
-				{
-					controller.passOnCommandToPayload(command.payloadName, command);
-				}
+//				if(command.commandOne == true || command.commandTwo == true || command.commandThree == true || command.commandFour == true)
+//				{
+//					System.out.println(command.commandOne);
+//					System.out.println(command.commandTwo);
+//					System.out.println(command.commandThree);
+//					System.out.println(command.commandFour);
+//					//controller.passOnCommandToPayload(payloadDeviceName, command);
+//				}
 			}
 			try { Thread.sleep(10); } catch(InterruptedException e) { /* we tried */}
+			
+			terminalConnected = timeOut();
 		}
+		
+		controller.terminalDataControllerList.remove(this);
+	}
+
+	public boolean timeOut()
+	{
+		return System.currentTimeMillis() - timeout < terminalLastData;
 	}
 	
-	public void getCommandForTerminal(Command command)
-	{
-		
-	}
+	
 }

@@ -66,10 +66,10 @@ public class GetPayloadNameFromTerminal
 					payloadRX.payloadRX = new Vector<PayloadData>();
 					PayloadData payloadData = new PayloadData();
 					payloadData.payloadName = command.payloadName;
-					
 					payloadRX.payloadRX.add(payloadData);
 					
 					payloadObjectTX.sendPayloadObject(payloadRX);
+					
 					
 					deviceNameSet = true;
 				}

@@ -16,8 +16,6 @@ public class Controller extends Thread
 {
 	public Vector<PayloadDataController> payloadDataControllerList;
 	public Vector<TerminalDataController> terminalDataControllerList;
-	
-	
 	public static javax.swing.event.EventListenerList listenerList = new javax.swing.event.EventListenerList();
 	public GUI gui;
 	public ListentoUDP listentoUDP;
@@ -38,36 +36,24 @@ public class Controller extends Thread
 		ConnectTerminalSocket connectTerminalSocket = new ConnectTerminalSocket(this);
 		connectPayloadSocket.start();
 		connectTerminalSocket.start();
-
 	}	
 	
-	public void requestPayloadDataUpdate(TerminalDataController terminalDataController, PayloadObjectTX payloadObjectTX, long lastReciveTimeStamp, String payloadDeviceName)
+	public void requestPayloadDataUpdate(TerminalDataController terminalDataController, PayloadObjectTX payloadObjectTX, long lastReciveTimeStamp, String payloadDeviceName, Command command)
 	{
 		addCompletedTerminalTXEventListener(new CompleteTerminalTXEventListener(this, lastReciveTimeStamp, payloadDeviceName, terminalDataController));	
 	}
 	
-	public void sendPayloadDataToTerminalController(Command command, String terminalName)
-	{
-		for(int i = 0; i < terminalDataControllerList.size(); i++)
-		{
-			if(terminalName.equals(terminalDataControllerList.get(i).terminalName) && terminalDataControllerList.size() > 0)
-			{
-				terminalDataControllerList.get(i).getCommandForTerminal(command);
-			}
-		}
-	}
-	
-	public void passOnCommandToPayload(String payloadDeviceName, Command command)
+	public void passOnCommandToPayload(String payloadDeviceName, final Command command)
 	{
 		for(int i = 0; i < payloadDataControllerList.size(); i++)
 		{
+			final int j = i;
 			if(payloadDeviceName.equals(payloadDataControllerList.get(i).deviceName) && payloadDataControllerList.size() >0 && payloadDataControllerList.get(0).payloadDataVector.size() > 0)
 			{
-				payloadDataControllerList.get(i).PassOnCommand(command);
+				    payloadDataControllerList.get(j).PassOnCommand(command);
 			}
 		}
 	}
-	
 
 	public static void addCompletedTerminalTXEventListener (CompleteTerminalTXEventListener completeTerminalTXEventListener)
 	{

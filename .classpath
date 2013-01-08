@@ -2,11 +2,6 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
-	<classpathentry kind="lib" path="C:/Users/Kevin/Documents/GitHub/S4Server/mysql-connector-java-3.1.14/mysql-connector-java-3.1.14-bin.jar" sourcepath="mysql-connector-java-3.1.14/mysql-connector-java-3.1.14-bin.jar">
-		<attributes>
-			<attribute name="javadoc_location" value="file:/C:/Users/Kevin/Documents/GitHub/S4Server/mysql-connector-java-3.1.14/docs/"/>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="C:/Users/Kevin/Documents/GitHub/S4Server/mysql-connector-java-3.1.14/src/lib"/>
-		</attributes>
-	</classpathentry>
+	<classpathentry kind="lib" path="mysql-connector-java-3.1.14/mysql-connector-java-3.1.14-bin.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

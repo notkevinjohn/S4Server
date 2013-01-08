@@ -2,6 +2,8 @@ package SocketHandelers;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.Vector;
 
 import Data.BrodcastMessage;
@@ -29,7 +31,8 @@ public class PayloadDataController extends Thread
 	private InsertDataIntoDatabase mySqlData;
 	public MySqlData mySqlDataParsed;
 	public BrodcastMessage brodcastMessage;
-	
+	private Timer timer;
+	private int updateRate = 2000;
 	
 	public PayloadDataController(Socket socket, Controller controller, String payloadDeviceName)
 	{
@@ -42,8 +45,11 @@ public class PayloadDataController extends Thread
 		payloadData = new PayloadData();
 		payloadLogger = new PayloadLogger();
 		payloadLogger.payloadLogger(payloadDeviceName);
+		brodcastMessage = new BrodcastMessage();
+		
 		this.start();
 		mySqlData = new InsertDataIntoDatabase();
+		
 		
 	}
 	
@@ -82,8 +88,13 @@ public class PayloadDataController extends Thread
 						String tempScienceData = streamInString.substring(scienceDataStart);
 						tempScienceData += '\r';
 						payloadData.scienceData = tempScienceData;
-
-						mySqlDataParsed = mySqlData.insertDataIntoDatabase(deviceName, tempGpsData, tempScienceData); 
+						
+						
+						
+						mySqlDataParsed = mySqlData.insertDataIntoDatabase(deviceName, tempGpsData, tempScienceData,brodcastMessage); 
+						
+						
+						
 						
 						
 						payloadData.Sen_1_Key = mySqlDataParsed.Sen_1_Key;
@@ -243,10 +254,9 @@ public class PayloadDataController extends Thread
 						
 						payloadData.timeStamp = System.currentTimeMillis();
 						
-						if(brodcastMessage != null)
-						{
-							payloadData.brodcastMessage = brodcastMessage;
-						}
+						payloadData.brodcastMessage = new BrodcastMessage();
+						payloadData.brodcastMessage.BatteryVoltage = brodcastMessage.BatteryVoltage;
+						payloadData.brodcastMessage.RSSI = brodcastMessage.RSSI;
 						
 						payloadDataVector.addElement(payloadData);
 						payloadData = new PayloadData();
@@ -260,6 +270,7 @@ public class PayloadDataController extends Thread
 		}
 	}
 	
+	
 	public void StreamOut(String sendText)
 	{
 		streamOut.streamOut(sendText);
@@ -269,23 +280,28 @@ public class PayloadDataController extends Thread
 	{
 		this.brodcastMessage = brodcastMessage;
 	}
+	
 	public void PassOnCommand(Command command)
 	{
 		if(command.commandOne == true)
 		{
+			System.out.println("Command1");
 			StreamOut("&1");
 		}
 		else if(command.commandTwo == true)
 		{
+			System.out.println("Command2");
 			StreamOut("&2");
 		}
 		else if(command.commandThree == true)
 		{
-			StreamOut("&2");
+			System.out.println("Command3");
+			StreamOut("&3");
 		}
 		else if(command.commandFour == true)
 		{
-			StreamOut("&2");
+			System.out.println("Command4");
+			StreamOut("&4");
 		}
 	}
 }

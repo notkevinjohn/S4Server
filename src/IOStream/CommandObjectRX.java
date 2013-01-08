@@ -27,20 +27,22 @@ public class CommandObjectRX
 
 	public Command getCommandObject()	
 	{	
-		System.out.println("Getcommand");
+		//System.out.println("Getcommand");
 		command = new Command();
 		try 
 		{
 			command = (Command)objectInputStream.readObject();
 		} 
 		catch (ClassNotFoundException e) 
-		{	
+		{
+			e.printStackTrace();
 		}
 		catch(IOException e)
 		{
+			e.printStackTrace();
 		}
 		
-		System.out.println("Sendcommand");
+	//	System.out.println("Sendcommand");
 		
 		return command;
 	}

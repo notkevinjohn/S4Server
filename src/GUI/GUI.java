@@ -99,7 +99,6 @@ public class GUI extends JFrame {
 				System.exit(0);
 			}
 		});
-		
 	}
 	
 	
@@ -128,8 +127,12 @@ public class GUI extends JFrame {
 		        			if(controller.payloadDataControllerList.get(i).deviceName.equals(controller.terminalDataControllerList.get(j).payloadDeviceName))
 		        			{
 		        				String tempString = "    -";
-		        				tempString += controller.terminalDataControllerList.get(j).socket.getInetAddress();
-		        				tempString += "\n";
+		        				tempString += controller.terminalDataControllerList.get(j).terminalName;
+		        				tempString += "  (";
+		        				String tempString2 = controller.terminalDataControllerList.get(j).socket.getInetAddress().toString();
+		        				tempString2 = tempString2.substring(1);
+		        				tempString += tempString2;
+		        				tempString += ")\n";
 		        				textArea.append(tempString);
 		        			}
 		        		}

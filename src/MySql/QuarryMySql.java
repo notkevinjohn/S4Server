@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Vector;
+
+import Data.BrodcastMessage;
 import Data.PayloadData;
 import Data.PayloadRX;
 import Events.CompleteTerminalTXEvent;
@@ -53,7 +55,7 @@ public class QuarryMySql extends Thread
 		{
 		Class.forName("com.mysql.jdbc.Driver").newInstance();
 		connection = DriverManager.getConnection(databaseURL + databaseName, userName, password);
-		System.out.println("Connected to Database");
+	//	System.out.println("Connected to Database");
 		}
 		catch(Exception e)
 		{
@@ -88,6 +90,8 @@ public class QuarryMySql extends Thread
 			while(resultSet.next())
 			{
 				PayloadData payloadData = new PayloadData();
+				payloadData.brodcastMessage = new BrodcastMessage();
+				
 				if(resultSet.getString(1) != null && !resultSet.getString(1).isEmpty())
 				{
 					payloadData.timeStamp = Long.parseLong(resultSet.getString(1));
@@ -231,6 +235,14 @@ public class QuarryMySql extends Thread
 					}
 					catch(NumberFormatException  exc) {}
 				}
+				if(resultSet.getString(30) != null && !resultSet.getString(30).isEmpty()  )
+				{
+					payloadData.brodcastMessage.RSSI = resultSet.getString(30);
+				}
+				if(resultSet.getString(31) != null && !resultSet.getString(31).isEmpty()  )
+				{
+					payloadData.brodcastMessage.BatteryVoltage = resultSet.getString(31);
+				}
 				
 				payloadRX.payloadRX.add(payloadData);
 			}
@@ -253,7 +265,6 @@ public class QuarryMySql extends Thread
             }
             
          CompleteTerminalTXEvent complete = new CompleteTerminalTXEvent(this, payloadRX);
-         
          Object[] listeners = Controller.listenerList.getListenerList(); 
    		 for (int i=0; i< listeners.length; i+=2) 
    		 {
