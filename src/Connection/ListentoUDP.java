@@ -127,47 +127,18 @@ public class ListentoUDP  extends Thread
 		brodcastMessage.BootTime = hexString.substring(180, 182);
 		brodcastMessage.VoltageSensors = hexString.substring(182, hexString.length());
 
-//		System.out.println(brodcastMessage.macAddress);
-//		System.out.println(brodcastMessage.channel);
-//		System.out.println(brodcastMessage.RSSI);
-//		System.out.println(brodcastMessage.localTCPPort);
-//		System.out.println(brodcastMessage.RTCvalue);
-//		System.out.println(brodcastMessage.BatteryVoltage);
-//		System.out.println(brodcastMessage.valueofGPIO);
-//		System.out.println(brodcastMessage.ASCIITime);
-//		System.out.println(brodcastMessage.Version);
-//		System.out.println(brodcastMessage.DeviceID);
-//		System.out.println(brodcastMessage.BootTime);
-//		System.out.println(brodcastMessage.VoltageSensors);
-//		System.out.println(brodcastMessage.DeviceID);
-		
-		String tempString = brodcastMessage.DeviceID.substring(0, 6);
-			   tempString += "   ";
-		       tempString += "RSSI: -";
-			   tempString += Long.parseLong(brodcastMessage.RSSI, 16);
-			   tempString += "dbm     Battery: ";
-			   tempString +=  Long.parseLong(brodcastMessage.BatteryVoltage, 16);
-			   tempString += "\r";
-			 //  System.out.println(tempString); 
-//		gui.updateText(tempString);
-//		
-		BrodcastMessageUpdate(brodcastMessage.DeviceID.substring(0, 6));
-		
 
 		
-//		if(brodcastMessage.DeviceID.startsWith("SSU-01"))
-//		{
-//			String temp = "-";
-//			temp +=Long.parseLong(brodcastMessage.RSSI,16);
-//			System.out.println(temp);
-//		}
-//		
-//		if(brodcastMessage.DeviceID.startsWith("SSU-02"))
-//		{
-//			String temp = "-";
-//			temp +=Long.parseLong(brodcastMessage.RSSI,16);
-//			System.out.println(temp);
-//		}
+//		String tempString = brodcastMessage.DeviceID.substring(0, 6);
+//			   tempString += "   ";
+//		       tempString += "RSSI: -";
+//			   tempString += Long.parseLong(brodcastMessage.RSSI, 16);
+//			   tempString += "dbm     Battery: ";
+//			   tempString +=  Long.parseLong(brodcastMessage.BatteryVoltage, 16);
+//			   tempString += "\r";
+//			 //  System.out.println(tempString); 
+	
+		BrodcastMessageUpdate(brodcastMessage.DeviceID.substring(0, 6));
 		
 	}
 	public void  BrodcastMessageUpdate(String payloadName)

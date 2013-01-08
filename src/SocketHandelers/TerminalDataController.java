@@ -27,7 +27,6 @@ public class TerminalDataController extends Thread
 		this.payloadDeviceName = payloadDeviceName;
 		this.terminalName = terminalName;
 		this.socket = socket;
-		
 		this.start();
 	}
 	

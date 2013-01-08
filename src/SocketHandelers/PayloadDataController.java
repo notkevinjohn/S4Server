@@ -87,7 +87,7 @@ public class PayloadDataController extends Thread
 						
 						
 						payloadData.Sen_1_Key = mySqlDataParsed.Sen_1_Key;
-						if(!mySqlDataParsed.Sen_1_Value.contentEquals(""))
+						if(mySqlDataParsed.Sen_1_Value != null && !mySqlDataParsed.Sen_1_Value.contentEquals(""))
 						{
 							try
 							{
@@ -99,7 +99,7 @@ public class PayloadDataController extends Thread
 							}
 						}
 						payloadData.Sen_2_Key = mySqlDataParsed.Sen_2_Key;
-						if(!mySqlDataParsed.Sen_2_Value.contentEquals(""))
+						if(mySqlDataParsed.Sen_2_Value != null && !mySqlDataParsed.Sen_2_Value.contentEquals(""))
 						{
 							try
 							{
@@ -111,7 +111,7 @@ public class PayloadDataController extends Thread
 							}
 						}
 						payloadData.Sen_3_Key = mySqlDataParsed.Sen_3_Key;
-						if(!mySqlDataParsed.Sen_3_Value.contentEquals(""))
+						if(mySqlDataParsed.Sen_3_Value != null && !mySqlDataParsed.Sen_3_Value.contentEquals(""))
 						{
 							try
 							{
@@ -123,7 +123,7 @@ public class PayloadDataController extends Thread
 							}
 						}
 						payloadData.Sen_4_Key = mySqlDataParsed.Sen_4_Key;
-						if(!mySqlDataParsed.Sen_4_Value.contentEquals(""))
+						if(mySqlDataParsed.Sen_4_Value != null && !mySqlDataParsed.Sen_4_Value.contentEquals(""))
 						{
 							try
 							{
@@ -135,7 +135,7 @@ public class PayloadDataController extends Thread
 							}
 						}
 						payloadData.Sen_5_Key = mySqlDataParsed.Sen_5_Key;
-						if(!mySqlDataParsed.Sen_5_Value.contentEquals(""))
+						if(mySqlDataParsed.Sen_5_Value != null && !mySqlDataParsed.Sen_5_Value.contentEquals(""))
 						{
 							try
 							{
@@ -147,7 +147,7 @@ public class PayloadDataController extends Thread
 							}
 						}
 						payloadData.Sen_6_Key = mySqlDataParsed.Sen_6_Key;
-						if(!mySqlDataParsed.Sen_6_Value.contentEquals(""))
+						if(mySqlDataParsed.Sen_6_Value != null && !mySqlDataParsed.Sen_6_Value.contentEquals(""))
 						{
 							try
 							{
@@ -159,7 +159,7 @@ public class PayloadDataController extends Thread
 							}
 						}
 						payloadData.Sen_7_Key = mySqlDataParsed.Sen_7_Key;
-						if(!mySqlDataParsed.Sen_7_Value.contentEquals(""))
+						if(mySqlDataParsed.Sen_7_Value != null && !mySqlDataParsed.Sen_7_Value.contentEquals(""))
 						{
 							try
 							{
@@ -171,7 +171,7 @@ public class PayloadDataController extends Thread
 							}
 						}
 						payloadData.Sen_8_Key = mySqlDataParsed.Sen_8_Key;
-						if(!mySqlDataParsed.Sen_8_Value.contentEquals(""))
+						if(mySqlDataParsed.Sen_8_Value != null && !mySqlDataParsed.Sen_8_Value.contentEquals(""))
 						{
 							try
 							{
@@ -183,7 +183,7 @@ public class PayloadDataController extends Thread
 							}
 						}
 						payloadData.Sen_9_Key = mySqlDataParsed.Sen_9_Key;
-						if(!mySqlDataParsed.Sen_9_Value.contentEquals(""))
+						if(mySqlDataParsed.Sen_9_Value != null && !mySqlDataParsed.Sen_9_Value.contentEquals(""))
 						{
 							try
 							{
@@ -195,7 +195,7 @@ public class PayloadDataController extends Thread
 							}
 						}
 						payloadData.Sen_10_Key = mySqlDataParsed.Sen_10_Key;
-						if(!mySqlDataParsed.Sen_10_Value.contentEquals(""))
+						if(mySqlDataParsed.Sen_10_Value != null && !mySqlDataParsed.Sen_10_Value.contentEquals(""))
 						{
 							try
 							{
@@ -207,7 +207,7 @@ public class PayloadDataController extends Thread
 							}
 						}
 						
-						if(mySqlDataParsed.GPS_Alt.matches("[0-9]+") | mySqlDataParsed.GPS_Alt.contains(".") )  // Need to handel this better
+						if(mySqlDataParsed.GPS_Alt != null && mySqlDataParsed.GPS_Alt.matches("[0-9]+") | mySqlDataParsed.GPS_Alt.contains(".") )  // Need to handel this better
 						{
 							try
 							{
@@ -218,7 +218,7 @@ public class PayloadDataController extends Thread
 								e.printStackTrace();
 							}
 						}
-						if(mySqlDataParsed.GPS_Lon.matches("[0-9]+") | mySqlDataParsed.GPS_Alt.contains("."))
+						if(mySqlDataParsed.GPS_Lon != null && mySqlDataParsed.GPS_Lon.matches("[0-9]+") | mySqlDataParsed.GPS_Alt.contains("."))
 						{
 							try
 							{
@@ -229,7 +229,7 @@ public class PayloadDataController extends Thread
 								e.printStackTrace();
 							}
 						}
-						if(mySqlDataParsed.GPS_Lat.matches("[0-9]+") | mySqlDataParsed.GPS_Alt.contains("."))
+						if(mySqlDataParsed.GPS_Lat != null && mySqlDataParsed.GPS_Lat.matches("[0-9]+") | mySqlDataParsed.GPS_Alt.contains("."))
 						{
 							try
 							{

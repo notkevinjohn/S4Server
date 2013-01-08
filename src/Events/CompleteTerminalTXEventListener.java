@@ -12,11 +12,12 @@ public class CompleteTerminalTXEventListener implements ICompleteTerminalTXEvent
 	public CompleteTerminalTXEventListener (Controller controller, long lastReciveTimeStamp,String payloadDeviceName,  TerminalDataController terminalDataController)
 	{
 		this.terminalDataController = terminalDataController;
-		new QuarryMySql(controller, lastReciveTimeStamp, payloadDeviceName);
+		new QuarryMySql(lastReciveTimeStamp, payloadDeviceName);
 	}
 
-	public void CompleteTerminalTXEventHandler(CompleteTerminalTXEvent event) 
+	public void completeTerminalTXEventHandler(CompleteTerminalTXEvent event) 
 	{
 		terminalDataController.payloadObjectTX.sendPayloadObject(event.payloadRX);
+		Controller.removeCompletedTerminalTXEventListener(this);
 	}
 }
