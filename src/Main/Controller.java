@@ -19,12 +19,13 @@ public class Controller extends Thread
 	public static javax.swing.event.EventListenerList listenerList = new javax.swing.event.EventListenerList();
 	public GUI gui;
 	public ListentoUDP listentoUDP;
+	public String ipAddressLocal = "192.168.1.2";
 	
 	public Controller()
 	{	
 		gui = new GUI(this);
 		listentoUDP = new ListentoUDP();
-		listentoUDP.listentoUDP(this, gui);
+		listentoUDP.listentoUDP(this, gui, ipAddressLocal);
 		listentoUDP.start();
 		
 		terminalDataControllerList = new Vector<TerminalDataController>();

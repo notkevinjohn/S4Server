@@ -1,5 +1,6 @@
 package Connection;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -57,22 +58,28 @@ public class ConnectPayloadSocket extends Thread
 	
 	public void attachPayload(Socket socket)
 	{
-		GetNameFromPayload getNameFromPayload = new GetNameFromPayload(socket);
-		if(getNameFromPayload.nameFromPayload())
+		InetAddress ip = socket.getInetAddress();
+		boolean newPayload = true;
+		
+		for(int i = 0; i < controller.payloadDataControllerList.size(); i++)
 		{
-			System.out.println(getNameFromPayload.payloadName);
-			PayloadDataController payloadDataController = new PayloadDataController(socket, controller, getNameFromPayload.payloadName);
-			controller.payloadDataControllerList.add(payloadDataController);
+			if(controller.payloadDataControllerList.get(i).socket.getInetAddress() == ip)
+				{
+					controller.payloadDataControllerList.get(i).socket = socket;
+					newPayload = false;
+				}
 		}
 		
-	//	GetPayloadNameFromTerminal getName = new GetPayloadNameFromTerminal(controller);
-//		payload = new Payload();
-//		payload.socket = socket;
-//		payload.deviceName = getName.getPName(socket);
-//		payloadList.add(payload);
-	
-//		PayloadDataController payloadDataController = new PayloadDataController(socket, controller, payload.deviceName);
-//		payloadDataControllerList.add(payloadDataController);
-//		controller.UPDatePayloadList(payloadDataControllerList,payloadList);
+		if(newPayload)
+		{
+			GetNameFromPayload getNameFromPayload = new GetNameFromPayload(socket);
+			if(getNameFromPayload.nameFromPayload())
+			{
+				System.out.println(getNameFromPayload.payloadName);
+				PayloadDataController payloadDataController = new PayloadDataController(socket, controller, getNameFromPayload.payloadName);
+				controller.payloadDataControllerList.add(payloadDataController);
+			}
+		}
 	}
+
 }

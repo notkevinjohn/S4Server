@@ -21,7 +21,7 @@ public class PayloadDataController extends Thread
 	public Vector<PayloadData> payloadDataVector;
 	public PayloadData payloadData;
 	public String deviceName;
-	private Socket socket;
+	public Socket socket;
 	private int available = 0;
 	private SendStreamOut streamOut;
 	private String streamInString;

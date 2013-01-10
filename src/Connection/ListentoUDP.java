@@ -26,17 +26,20 @@ public class ListentoUDP  extends Thread
 	public GUI gui;
 	public PayloadLogger payloadLogger1;
 	public PayloadLogger payloadLogger2;
+	public String ipAddressLocal;
 	StringBuilder output;
 	StringBuilder output2;
 	StringBuilder output3;
 	
-	public void listentoUDP(Controller controller, GUI gui)
+	
+	public void listentoUDP(Controller controller, GUI gui, String ipAddressLocal)
 	{
 		this.gui = gui;
 		this.controller = controller;
-
+		this.ipAddressLocal = ipAddressLocal;
+		
 		try {
-				socket = new DatagramSocket(2003, InetAddress.getByName("192.168.1.2"));
+				socket = new DatagramSocket(2003, InetAddress.getByName(ipAddressLocal));
 			} 
 		catch (SocketException | UnknownHostException e1) 
 		{
